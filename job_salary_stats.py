@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import requests
 import os
 
-API_KEY = "v3.r.139060648.79c692061429e4acb3e97efd8bfb273e1842fb26.1e5a827ffec98cdaedf92bed77d9d9802b2591fa"
 
 def get_hh_stats(language):
     url = 'https://api.hh.ru/vacancies'
@@ -45,6 +44,7 @@ def get_hh_stats(language):
         'vacancies_processed': len(salaries),
         'average_salary': int(sum(salaries) / len(salaries)) if salaries else 0
     }
+
 
 def get_sj_stats(language, token):
     url = 'https://api.superjob.ru/2.0/vacancies/'
@@ -87,12 +87,14 @@ def get_sj_stats(language, token):
         'average_salary': int(sum(salaries) / len(salaries)) if salaries else 0
     }
 
+
 def print_table(title, stats):
     table = [[lang, data['vacancies_found'], data['vacancies_processed'], data['average_salary']]
              for lang, data in stats.items()]
     headers = ['Язык программирования', 'Найдено вакансий', 'Обработано', 'Средняя зарплата']
     print(f'\n{title}')
     print(tabulate(table, headers=headers, tablefmt='grid'))
+
 
 def main():
     load_dotenv()
@@ -105,6 +107,7 @@ def main():
 
     print_table('HeadHunter Moscow', hh_stats)
     print_table('SuperJob Moscow', sj_stats)
+
 
 if __name__ == '__main__':
     main()
